@@ -1,0 +1,3 @@
+Config,obs_top1_accuracy,cand_macro_f1,cand_precision,cand_recall,cand_log_loss,route_continuity
+Untuned (default),0.8187,0.8495,0.6143,0.9519,0.1926,0.0
+Tuned (Optuna 50 trials),0.8196,0.8566,0.6341,0.9403,0.1768,0.0
