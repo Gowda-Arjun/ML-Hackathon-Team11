@@ -1,0 +1,6 @@
+model,grouped_cv_macro_f1,student_test_top1_accuracy,student_test_macro_f1,log_loss,route_continuity,candidate_miss_rate,train_seconds,inference_ms_per_trip,notes
+Logistic Regression,,,,,,,,,
+Weighted KNN,,,,,,,,,
+Extra Trees,,,,,,,,,
+HistGradientBoosting,,,,,,,,,
+MLP,,,,,,,,,
