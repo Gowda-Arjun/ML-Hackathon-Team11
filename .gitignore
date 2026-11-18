@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+*.log
+/tmp/
+Student folder/
+*.parquet
+artifacts/results/*.csv.gz
