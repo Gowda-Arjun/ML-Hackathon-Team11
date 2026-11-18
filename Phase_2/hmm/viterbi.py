@@ -28,9 +28,9 @@ from Phase_2.hmm.emissions import combined_emission_log_probs
 
 
 DROPOUT_THRESHOLD_S = 5.0   # seconds – treat as a gap / dropout
-SIGMA_Z             = 25.0  # GPS noise std dev in meters
-EMISSION_ALPHA      = 0.75  # weight on classifier vs Gaussian emission
-BETA_TRANS          = 30.0  # transition distribution scale (meters)
+SIGMA_Z             = 20.0  # GPS noise std dev in meters
+EMISSION_ALPHA      = 0.85  # optimal balance: 85% tuned classifier + 15% distance prior
+BETA_TRANS          = 20.0  # transition distribution scale (meters)
 EPS                 = 1e-9
 
 

@@ -59,6 +59,7 @@ class RoadGraph:
 
         # Midpoints of each arc in metric space
         self.arc_midpoints = 0.5 * (node_pts[self.arc_u] + node_pts[self.arc_v])
+        self._dist_cache: Dict[Tuple[int, int], float] = {}
 
     def direct_successors(self, arc_id: int) -> List[int]:
         """Return arc IDs that can be directly reached from arc_id (v[arc] == u[next])."""
@@ -74,10 +75,15 @@ class RoadGraph:
         v_end   = int(self.arc_u[to_arc])    # start node of to_arc
         if u_start == v_end:
             return 0.0
+        key = (u_start, v_end)
+        if key in self._dist_cache:
+            return self._dist_cache[key]
         try:
-            dist = nx.shortest_path_length(self.G, u_start, v_end, weight="weight")
-            return float(dist)
+            dist = float(nx.shortest_path_length(self.G, u_start, v_end, weight="weight"))
+            self._dist_cache[key] = dist
+            return dist
         except nx.NetworkXNoPath:
+            self._dist_cache[key] = float("inf")
             return float("inf")
 
     def transition_log_prob(
@@ -89,13 +95,15 @@ class RoadGraph:
     ) -> float:
         """
         Compute log P(to_arc | from_arc) using graph-distance formulation:
-
             P(to_arc | from_arc) ∝ exp(-|d_net - d_gps| / beta)
-
-        Returns log probability (may be -inf for unreachable arcs).
         """
+        # Staying on the same road arc
         if from_arc == to_arc:
-            return 0.0  # log(1) staying on same arc
+            return 0.0
+
+        # Direct road graph connection: v[from_arc] == u[to_arc]
+        if int(self.arc_v[from_arc]) == int(self.arc_u[to_arc]):
+            return 0.0
 
         d_net = self._network_distance(from_arc, to_arc)
         if np.isinf(d_net):
